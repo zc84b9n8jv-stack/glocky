@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crow – Player</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #07111f;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+        color: white;
+        text-align: center;
+        user-select: none;
+    }
+
+    .cover-container {
+        margin-top: 45px;
+    }
+
+    .cover {
+        width: 80%;
+        max-width: 370px;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+        margin: 18px 0 5px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    h4 {
+        margin: 0 0 25px;
+        font-size: 15px;
+        font-weight: 300;
+        color: #cfcfcf;
+    }
+
+    .chapter {
+        margin-top: 42px;
+        font-size: 20px;
+        opacity: 0.8;
+        letter-spacing: 0.4px;
+    }
+
+    .timeline-container {
+        margin: 22px auto;
+        width: 88%;
+    }
+
+    input[type=range] {
+        width: 100%;
+        -webkit-appearance: none;
+        background: transparent;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        height: 4px;
+        background: #223247;
+        border-radius: 2px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        margin-top: -6px;
+        background: #ffbf00;
+        border-radius: 50%;
+    }
+
+    .timestamps {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 7px;
+        font-size: 14px;
+        opacity: 0.85;
+    }
+
+    .controls {
+        margin-top: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .play-btn {
+        background: white;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bottom-row {
+        margin-top: 46px;
+        display: flex;
+        justify-content: space-around;
+        padding: 0 18px;
+    }
+
+    .bottom-item {
+        text-align: center;
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .bottom-item svg {
+        display: block;
+        margin: 0 auto 6px auto;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- COVER -->
+<div class="cover-container">
+    <img class="cover" src="https://i.imgur.com/AudDUSO.jpeg">
+    <h2>Crow</h2>
+    <h4>Read by the Author – Ted Hughes</h4>
+</div>
+
+<div class="chapter">≡ Chapter 24</div>
+
+<!-- TIMELINE -->
+<div class="timeline-container">
+    <input type="range" id="seekbar" value="0" min="0" step="1">
+    <div class="timestamps">
+        <span id="current">0:00</span>
+        <span id="remaining">– 0:00</span>
+    </div>
+</div>
+
+<!-- CONTROLLI -->
+<div class="controls">
+
+    <!-- BACK CHAPTER -->
+    <button class="btn" id="backChapter">
+        <svg width="46" height="46" viewBox="0 0 42 42" fill="none"
+             stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="10" x2="12" y2="32"/>
+          <polygon points="30,10 14,21 30,32"/>
+        </svg>
+    </button>
+
+    <!-- BACK 30s -->
+    <button class="btn" id="back30">
+        <svg width="70" height="70" viewBox="0 0 64 64">
+
+          <!-- ARCO -->
+          <path d="M46 18 A22 22 0 1 0 18 46"
+                fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- PUNTA CORRETTA -->
+          <path d="M18 18 l-6 4 l6 4 z" fill="#FFFFFF"/>
+
+          <!-- 30 -->
+          <text x="26" y="35" font-size="14"
+                font-family="-apple-system, sans-serif" fill="#FFFFFF">30</text>
+
+        </svg>
+    </button>
+
+    <!-- PLAY -->
+    <button class="play-btn" id="playBtn">
+        <svg id="playIcon" width="60" height="60" viewBox="0 0 42 42">
+            <polygon points="15,9 34,21 15,33" fill="#07111f"/>
+        </svg>
+    </button>
+
+    <!-- FORWARD 30s -->
+    <button class="btn" id="forward30">
+        <svg width="70" height="70" viewBox="0 0 64 64">
+
+          <!-- ARCO -->
+          <path d="M18 18 A22 22 0 1 1 46 46"
+                fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- PUNTA CORRETTA -->
+          <path d="M46 18 l6 4 l-6 4 z" fill="#FFFFFF"/>
+
+          <!-- 30 -->
+          <text x="26" y="35" font-size="14"
+                font-family="-apple-system, sans-serif" fill="#FFFFFF">30</text>
+
+        </svg>
+    </button>
+
+    <!-- FORWARD CHAPTER -->
+    <button class="btn" id="forwardChapter">
+        <svg width="46" height="46" viewBox="0 0 42 42" fill="none"
+             stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="30" y1="10" x2="30" y2="32"/>
+          <polygon points="12,10 28,21 12,32"/>
+        </svg>
+    </button>
+
+</div>
+
+<!-- BOTTOM ROW -->
+<div class="bottom-row">
+
+    <div class="bottom-item">
+        <svg width="60" height="30">
+          <text x="0" y="20" fill="#FFFFFF" font-size="20" font-weight="600">
+            1,0<tspan font-size="16">×</tspan>
+          </text>
+        </svg>
+        Velocità
+    </div>
+
+    <div class="bottom-item">
+        <svg width="43" height="43" viewBox="0 0 48 48" fill="none"
+             stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 30h20l4-10c1-3-1-6-4-7l-8-2h-4l-8 2c-3 1-5 4-4 7l4 10z"/>
+          <circle cx="17" cy="34" r="2.5"/>
+          <circle cx="31" cy="34" r="2.5"/>
+          <path d="M12 24h24"/>
+        </svg>
+        Modalità in Auto
+    </div>
+
+    <div class="bottom-item">
+        <svg width="43" height="43" viewBox="0 0 48 48" fill="none"
+             stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="26" r="12"/>
+          <line x1="24" y1="26" x2="30" y2="22"/>
+          <circle cx="24" cy="12" r="3"/>
+        </svg>
+        Timer
+    </div>
+
+    <div class="bottom-item">
+        <svg width="43" height="43" viewBox="0 0 48 48" fill="none"
+             stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 10h12v26l-6-5-6 5z"/>
+          <line x1="24" y1="15" x2="24" y2="21"/>
+          <line x1="21" y1="18" x2="27" y2="18"/>
+        </svg>
+        + Clip
+    </div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="audio" src="audio.mp3"></audio>
+
+<script>
+const audio = document.getElementById("audio");
+const seekbar = document.getElementById("seekbar");
+const current = document.getElementById("current");
+const remaining = document.getElementById("remaining");
+const playIcon = document.getElementById("playIcon");
+const playBtn = document.getElementById("playBtn");
+
+/* PLAY / PAUSA */
+playBtn.onclick = () => {
+    if (audio.paused) {
+        audio.play();
+        playIcon.innerHTML = `
+            <rect x="13" y="10" width="7" height="22" fill="#07111f"></rect>
+            <rect x="23" y="10" width="7" height="22" fill="#07111f"></rect>
+        `;
+    } else {
+        audio.pause();
+        playIcon.innerHTML = `
+            <polygon points="15,9 34,21 15,33" fill="#07111f"></polygon>
+        `;
+    }
+};
+
+/* 30 SECONDI INDIETRO */
+document.getElementById("back30").onclick = () => {
+    audio.currentTime = Math.max(0, audio.currentTime - 30);
+};
+
+/* 30 SECONDI AVANTI */
+document.getElementById("forward30").onclick = () => {
+    audio.currentTime = Math.min(audio.duration, audio.currentTime + 30);
+};
+
+/* Aggiornamento durata */
+audio.onloadedmetadata = () => {
+    seekbar.max = audio.duration;
+};
+
+/* Aggiornamento timeline */
+audio.ontimeupdate = () => {
+    seekbar.value = audio.currentTime;
+    current.textContent = formatTime(audio.currentTime);
+    remaining.textContent = "– " + formatTime(audio.duration - audio.currentTime);
+};
+
+/* Seekbar interattivo */
+seekbar.oninput = () => {
+    audio.currentTime = seekbar.value;
+};
+
+/* Formattazione tempo */
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+}
+</script>
+
+</body>
+</html>
